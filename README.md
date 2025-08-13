@@ -28,9 +28,9 @@ Cette API permet de gérer les conférences, avec un système d'authentification
     "role": "ADMIN"
 }
 
-##Récuperer le Token 
--**POST /auth/login
--**Content-Type: application/json
+## Récuperer le Token 
+- ** POST /auth/login
+- ** Content-Type: application/json
 {
     "email": "admin@example.com",
     "password": "P@ssw0rd"
