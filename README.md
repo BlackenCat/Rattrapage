@@ -17,6 +17,12 @@ Cette API permet de gérer les conférences, avec un système d'authentification
 - **Feedback** : un seul feedback par participant et par talk
 
 ---
+## Utiliser l'api
+
+- ** cloner le depot : https://github.com/BlackenCat/Rattrapage/master
+- ** lancer l'application avec : ./mvnw spring-boot:run
+
+---
 ## créer un USER
 - ** POST /auth/register
 - ** Content-Type: application/json
