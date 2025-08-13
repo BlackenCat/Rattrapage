@@ -23,6 +23,10 @@ Cette API permet de gérer les conférences, avec un système d'authentification
 - ** lancer l'application avec : ./mvnw spring-boot:run
 
 ---
+## Test unitaire
+
+-** Voici ce qu'il faut executer pour les tests unitaire :  ./mvnw test
+---
 ## créer un USER
 - ** POST /auth/register
 - ** Content-Type: application/json
