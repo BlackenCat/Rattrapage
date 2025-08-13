@@ -17,9 +17,9 @@ Cette API permet de gérer les conférences, avec un système d'authentification
 - **Feedback** : un seul feedback par participant et par talk
 
 ---
-##crée un USER
--**POST /auth/register
--**Content-Type: application/json
+## crée un USER
+- ** POST /auth/register
+- ** Content-Type: application/json
 
 {
     "email": "admin@example.com",
