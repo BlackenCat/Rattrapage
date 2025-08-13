@@ -28,26 +28,62 @@ public class ScheduleService {
     private final RoomRepository rooms;
 
     public ScheduleService(ScheduleRepository schedules, TalkRepository talks, RoomRepository rooms) {
-        this.schedules = schedules; this.talks = talks; this.rooms = rooms;
+        this.schedules = schedules;
+        this.talks = talks;
+        this.rooms = rooms;
     }
 
     @Transactional
     public Schedule create(@Valid Create dto) {
+        if (dto.endTime.isBefore(dto.startTime) || dto.endTime.equals(dto.startTime)) {
+            throw new IllegalArgumentException("endTime must be after startTime");
+        }
+
         Talk talk = talks.findById(dto.talkId).orElseThrow();
         Room room = rooms.findById(dto.roomId).orElseThrow();
 
-        if (dto.endTime.isBefore(dto.startTime) || dto.endTime.equals(dto.startTime))
-            throw new IllegalArgumentException("endTime must be after startTime");
-
-        if (schedules.existsByTalkId(talk.getId()))
+        if (schedules.existsByTalkId(dto.talkId)) {
             throw new IllegalStateException("Talk already scheduled");
+        }
+        if (schedules.existsOverlap(dto.roomId, dto.startTime, dto.endTime)) {
+            throw new IllegalStateException("Room/time slot overlaps");
+        }
 
-        var overlaps = schedules.findByRoomIdAndStartTimeLessThanAndEndTimeGreaterThan(
-                room.getId(), dto.endTime, dto.startTime);
-        if (!overlaps.isEmpty()) throw new IllegalStateException("Room/time slot overlaps");
-
-        // La capacité sera vérifiée via Registration (voir section 4)
         Schedule s = new Schedule(talk, room, dto.startTime, dto.endTime);
         return schedules.save(s);
+    }
+
+    @Transactional
+    public Schedule update(Long id, @Valid Create dto) {
+        Schedule current = schedules.findById(id).orElseThrow();
+
+        if (dto.endTime.isBefore(dto.startTime) || dto.endTime.equals(dto.startTime)) {
+            throw new IllegalArgumentException("endTime must be after startTime");
+        }
+
+        Talk talk = talks.findById(dto.talkId).orElseThrow();
+        Room room = rooms.findById(dto.roomId).orElseThrow();
+
+        if (!current.getTalk().getId().equals(talk.getId()) && schedules.existsByTalkId(dto.talkId)) {
+            throw new IllegalStateException("Talk already scheduled");
+        }
+
+        if (schedules.existsOverlapExcluding(dto.roomId, dto.startTime, dto.endTime, id)) {
+            throw new IllegalStateException("Room/time slot overlaps");
+        }
+
+        current.setTalk(talk);
+        current.setRoom(room);
+        current.setStartTime(dto.startTime);
+        current.setEndTime(dto.endTime);
+        return current;
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        if (!schedules.existsById(id)) {
+            throw new java.util.NoSuchElementException("Schedule not found");
+        }
+        schedules.deleteById(id);
     }
 }

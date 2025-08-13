@@ -10,7 +10,7 @@ public class AuthDtos {
         @Email @NotBlank public String email;
         @NotBlank public String password;
         @NotBlank public String fullName;
-        public Role role; // ATTENDEE ou SPEAKER (ADMIN créé manuellement si besoin)
+        public Role role;
     }
 
     public static class LoginRequest {

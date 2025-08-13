@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Rattrapage.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Rattrapage.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Rattrapage.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Rattrapage.test.iml" />
     </modules>
   </component>
 </project>

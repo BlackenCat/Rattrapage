@@ -39,13 +39,10 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"
                         ).permitAll()
-                        // Auth en public
                         .requestMatchers("/auth/**").permitAll()
-                        // RBAC par endpoints (tu peux aussi le faire par @PreAuthorize côté contrôleurs/services)
                         .requestMatchers(HttpMethod.POST, "/talks").hasAnyRole("SPEAKER", "ADMIN")
                         .requestMatchers("/rooms/**", "/schedules/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/talks/*/feedback").hasRole("ATTENDEE")
-                        // Le reste : authentifié
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());

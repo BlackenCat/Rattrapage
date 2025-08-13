@@ -32,4 +32,20 @@ public class ScheduleController {
 
     @GetMapping("/{id}") public Schedule get(@PathVariable Long id){ return repo.findById(id).orElseThrow(); }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}")
+    public org.springframework.http.ResponseEntity<Schedule> update(
+            @PathVariable Long id,
+            @jakarta.validation.Valid @RequestBody Create dto
+    ) {
+        Schedule s = service.update(id, dto);
+        return org.springframework.http.ResponseEntity.ok(s);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public org.springframework.http.ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return org.springframework.http.ResponseEntity.noContent().build();
+    }
 }

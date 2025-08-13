@@ -36,7 +36,6 @@ public class TalkService {
     @Transactional
     public Talk update(Long id, TalkDtos.Update dto, Authentication auth) {
         Talk t = talks.findById(id).orElseThrow();
-        // autoriser ADMIN ailleurs via SecurityConfig ; ici on protège la propriété de l’auteur
         String current = auth.getName();
         if (!t.getSpeaker().getEmail().equals(current) && auth.getAuthorities().stream().noneMatch(a->a.getAuthority().equals("ROLE_ADMIN")))
             throw new SecurityException("Not owner");

@@ -44,7 +44,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             } catch (Exception ex) {
-                // token invalide/expiré → on laisse passer sans auth (traite par SecurityConfig)
             }
         }
 

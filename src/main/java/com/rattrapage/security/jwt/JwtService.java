@@ -27,8 +27,8 @@ public class JwtService {
         Date now = new Date();
         Date exp = new Date(now.getTime() + expirationMs);
         return Jwts.builder()
-                .setSubject(subject)          // email
-                .claim("role", role)          // SPEAKER/ATTENDEE/ADMIN
+                .setSubject(subject)
+                .claim("role", role)
                 .setIssuedAt(now)
                 .setExpiration(exp)
                 .signWith(key, SignatureAlgorithm.HS256)

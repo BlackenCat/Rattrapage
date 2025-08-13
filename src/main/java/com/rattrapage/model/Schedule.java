@@ -22,12 +22,10 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Un talk programmé une seule fois
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "talk_id", nullable = false, unique = true)
     private Talk talk;
 
-    // La salle où se tient le talk
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
@@ -49,15 +47,12 @@ public class Schedule {
         this.endTime = endTime;
     }
 
-    // ---- Règles au niveau entité ----
-    // (1) endTime doit être après startTime
     @AssertTrue(message = "endTime must be after startTime")
     public boolean isChronologicallyValid() {
         if (startTime == null || endTime == null) return true; // laissé à @NotNull
         return endTime.isAfter(startTime);
     }
 
-    // Getters / Setters
     public Long getId() { return id; }
     public Talk getTalk() { return talk; }
     public Room getRoom() { return room; }
